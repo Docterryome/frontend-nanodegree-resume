@@ -2,20 +2,29 @@
 This is empty on purpose! Your code to build the resume will go here.
  */
 
+
+
 var work = {
 	"jobs": [
-		"job": {
+		{
 			"employer": "FedEx Services",
 			"title": "associate technical analyst",
 			"location": "Memphis, TN",
+			"date": "2014 - present",
 			"description": "Worked on the \"Development Frameowrk\" team, which provided a common platform for all fedex developers in order to make development faster and eaiser."
+		},
+		{
+			"employer": "Tennessee State University",
+			"title": "lab technican",
+			"date": "2012 - 2013",
+			"location": "Nashville, TN",
+			"description": "troubleshoot computers, set up computer labs"
 		}
 	]
 };
-
 var projects = {
 	"projects": [
-		"project": {
+		{
 			"title": "Mans Best Friend",
 			"dates": "2014",
 			"description": "Matches dogs with partner.",
@@ -23,10 +32,9 @@ var projects = {
 		}
 
 	]
-}
-
+};
 var bio = {
-	"name": name,
+	"name": "Docterryome Wilkins",
 	"role": "Software Developer",
 	"contacts": {
 		"email": "docterryome@gmail.com",
@@ -38,27 +46,6 @@ var bio = {
 	"github": "https://github.com/Docterryome",
 	"skills": ["javascript", "css", "html", "java", "spring", "jenkins"]
 };
-
-/*bio.name = HTMLheaderName.replace("%data%", bio.name);
-bio.role = HTMLheaderRole.replace("%data%", bio.role);
-bio.contactInfo.phoneNumber = HTMLmobile.replace("%data%", bio.contactInfo.phoneNumber);
-bio.contactInfo.email = HTMLemail.replace("%data%", bio.contactInfo.email);
-bio.picture = HTMLbioPic.replace("%data%", bio.picture);
-var nioceSkills = "";
-for(var i = 0; i < bio.skills.length; i++){
-	nioceSkills += HTMLskills.replace("%data%",bio.skills[i]);
-}
-bio.welcomeMessage = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
-$("#header").append(bio.name);
-$("#header").append(bio.role);
-$("#header").append(bio.picture);
-$("#header").append(bio.contactInfo.email);
-$("#header").append(bio.contactInfo.phoneNumber);
-$("#header").append(HTMLskillsStart)
-$("#header").append(nioceSkills);
-$("#header").append(bio.welcomeMessage);
-*/
-
 
 var education = {
 	"schools": [
@@ -82,6 +69,68 @@ var education = {
 		}
 	]
 };
+if(bio.skills.length > 0){
+	console.log(bio.skills.length);
+	$('#header').append(HTMLheaderName.replace("%data%",bio.name));
+	$('#header').append(HTMLskillsStart);
+	bio.skills.forEach(addSkill);
+}
 
 
-$("#education").append(HTMLschoolStart);
+
+
+function addSkill(element){
+	$('#skills').append(HTMLskills.replace("%data%", element));
+}
+
+
+function displayWork(){
+	for(job in work.jobs){
+		$('#workExperience').append(HTMLworkStart);
+		console.log(HTMLworkStart);
+		var formattedWork = HTMLworkEmployer.replace("%data%",work.jobs[job].employer);
+		formattedWork += HTMLworkTitle.replace("%data%",work.jobs[job].title);
+		formattedWork += HTMLworkDates.replace("%data%",work.jobs[job].date);
+		formattedWork += HTMLworkLocation.replace("%data%",work.jobs[job].location);
+		formattedWork += HTMLworkDescription.replace("%data%", work.jobs[job].description);
+		console.log(formattedWork);
+		$('.work-entry:last').append(formattedWork);
+	}
+}
+
+displayWork();
+
+$(document).click(function(loc){
+
+	logClicks(loc.pageX,loc.pageY);
+});
+
+//$("#main").append(internationalizeButton);
+
+function inName(){
+	var name_array = bio.name.trim().split(" ");
+	var firstName = properNoun(name_array[0]);
+	var lastName = name_array[1].toUpperCase();
+	return firstName + " " + lastName;
+}
+
+
+function properNoun(noun){
+	var my_noun = noun.toLowerCase();
+	return my_noun.replace(my_noun[0], my_noun[0].toUpperCase());
+}
+
+projects.display = function() {
+	for(project in projects.projects){
+		$('#projects').append(HTMLprojectStart);
+		var projectTitle = HTMLprojectTitle.replace("%data%", projects.projects[project].title);
+		var projectDates = HTMLprojectDates.replace("%data%", projects.projects[project].dates);
+		var projectDescription = HTMLprojectDescription.replace("%data%", projects.projects[project].description);
+		var projectImage = HTMLprojectImage.replace("%data%", projects.projects[project].image);
+		var projectObject = projectTitle + projectDates  + projectDescription + projectImage;
+		console.log(projectObject);
+		$('.project-entry:last').append(projectObject);
+	}
+};
+
+projects.display();
